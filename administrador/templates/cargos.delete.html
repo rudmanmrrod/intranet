@@ -1,0 +1,12 @@
+{% extends 'base.template.html' %}
+{% load staticfiles %}
+{% block title %}Eliminar Cargo{% endblock %}
+{% block content %}
+    <h1>Borrar Cargo <b>{{object.nombre}}</b></h1><hr>
+    <form method="post">
+        {% csrf_token %}
+        <p>Si en realidad deseas borrar este registro da click en:</p>
+        <button type="submit" class="btn waves-effect red"/>Borrar </button>
+    </form><br>
+    <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'cargo_list' %}"> Regresar </a>
+{% endblock %}

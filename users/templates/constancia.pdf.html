@@ -1,0 +1,43 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='UTF-8'>
+          <style type="text/css">
+              body{
+                font-size: 15px;
+              }
+              #content{
+                  padding: 15px 15px 15px 15px;
+              }
+              .text-center {
+                  text-align: center;
+              }
+              .table {
+                    width: 100%;
+                    max-width: 100%;
+                    margin-bottom: 20px;
+              }
+              .table td, .table th {
+                    padding: 8px;
+                    line-height: 1.42857143;
+                    vertical-align: top;
+                    border:  1px solid #ddd;
+              }
+          </style>
+    </head>
+    <body>
+        <div id="content">
+          <br/><br/>
+          <h1 class="text-center">A quien pueda interesar</h1><br/>
+          <p>Por medio de la presente se hace constar que <b>{{name}}</b> portador (a) de la
+            <b>CI No. {{cedula}}</b> presta sus servicios como empleado (a) en <b>{{empresa}}</b> 
+            desde <b>{{fecha_ingreso}}</b> devengando un sueldo mensual 
+            por <b>{{sueldo}}</b> en el cargo de <b>{{cargo}}</b>.</p>
+
+          <p>Constancia que se expide a petición de la parte interesada el día {{fecha}}.</p>
+
+          Atentamente, {{empleador}}
+        </div>
+    </body>
+</html>

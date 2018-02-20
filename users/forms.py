@@ -22,7 +22,7 @@ from base.functions import (
     validate_cedula, validate_email, validate_username
     )
 from base.models import Municipio, Parroquia
-from .models import Perfil
+from .models import Perfil, Cargos
 #from captcha.fields import CaptchaField
 
 from django.core.validators import RegexValidator
@@ -170,6 +170,9 @@ class UserRegisterForm(forms.ModelForm):
 
     ## parroquia
     parroquia = forms.ChoiceField(widget=forms.Select(attrs={'disabled':'disabled'}))
+
+    ## cargo
+    cargo = forms.ModelChoiceField(queryset=Cargos.objects.all(),empty_label="Seleccione...")
 
     def clean_password_repeat(self):
         """!

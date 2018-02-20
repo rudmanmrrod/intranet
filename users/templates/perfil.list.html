@@ -1,0 +1,36 @@
+{% extends 'base.template.html' %}
+{% load staticfiles %}
+{% block title %}Usuarios{% endblock %}
+{% block content %}
+    <h1 class="center">Usuarios</h1><hr>
+        <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'user_register' %}">
+        <i class="material-icons left">add</i> Crear Nuevo Usuario
+    </a>
+    
+    {% for perfil in object_list %}
+        <div class="card">
+            <div class="card-content">
+                <span><b>Nombres: </b>{{ perfil.user.first_name }}</span><br/>
+                <span><b>Apellidos: </b>{{ perfil.user.last_name }}</span><br/>
+                <span><b>Cédula: </b>{{ perfil.cedula }}</span><br/>
+                <span><b>Nombre de Usuario: </b>{{ perfil.user.username }}</span><br/>
+                <span><b>Correo: </b>{{ perfil.user.email }}</span><br/>
+                <span><b>Cargo: </b>{{ perfil.cargo.nombre }}</span><br/>
+            </div>
+            <div class="card-action">
+                <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'user_update' perfil.user_id %}">
+                    <i class="material-icons left">edit</i> Editar
+                </a>
+                <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'cargo_delete' perfil.user_id %}">
+                    <i class="material-icons left">delete</i> Eliminar
+                </a>
+            </div>
+        </div>
+    {% empty %}
+        <h3>No existen usuarios.</h3>
+    {% endfor %}
+    {% include 'base.paginator.html' with paginator=page_obj %}
+    <div style="padding-bottom: 50px;">
+        <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'inicio' %}">Regresar</a>
+    </div>
+{% endblock %}

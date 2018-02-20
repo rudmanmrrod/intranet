@@ -20,7 +20,7 @@ class Entidad(models.Model):
     ## Nombre de la entidad
     nombre = models.CharField(max_length=50)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.nombre
 
 
@@ -40,7 +40,7 @@ class Municipio(models.Model):
     ## Relación con la entidad
     entidad = models.ForeignKey(Entidad)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.nombre
 
 
@@ -60,7 +60,7 @@ class Parroquia(models.Model):
     ## Relación con el municipio
     municipio = models.ForeignKey(Municipio)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.nombre
 
 class Empresa(models.Model):
@@ -85,5 +85,5 @@ class Empresa(models.Model):
     ## Relación con la parroquia
     parroquia = models.ForeignKey(Parroquia)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.nombre

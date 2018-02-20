@@ -1,7 +1,7 @@
-{% extends 'consulta.base.html' %}
+{% extends 'base.template.html' %}
 {% load staticfiles %}
 {% block title %}Perfil{% endblock %}
-{% block contenido %}
+{% block content %}
     <form action="" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
         {% csrf_token %}
         <div class="center">
@@ -53,7 +53,7 @@
             </div>
             <br><br><br><br><br><br>
              <div class="col-md-12 col-sm-12 col-xs-12">
-                 <a type="button" class="btn waves-effect teal" href="{% url 'consulta_index' %}">Regresar</a>
+                 <a type="button" class="btn waves-effect teal" href="{% url 'user_list' %}">Regresar</a>
                 <button type="submit" class="btn waves-effect teal">Actualizar</button>
              </div>
         </div>

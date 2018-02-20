@@ -6,7 +6,10 @@ Sistema de Intranet
 # Vistas correspondientes a la aplicación usuario
 # @version 1.0
 from django.shortcuts import render, redirect
-from django.views.generic import FormView, RedirectView, CreateView, UpdateView
+from django.views.generic import (
+    FormView, RedirectView, CreateView, 
+    UpdateView, ListView
+    )
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import authenticate, logout, login
@@ -14,9 +17,11 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.models import User, Group
 from django.contrib import messages
 from braces.views import GroupRequiredMixin
+from easy_pdf.views import PDFTemplateView
 from .forms import LoginForm, UserRegisterForm, PerfilForm
 from .models import Perfil
 from base.models import Parroquia
+
 
 
 class LoginView(FormView):
@@ -80,7 +85,7 @@ class RegisterView(LoginRequiredMixin, SuccessMessageMixin,FormView):
     """
     template_name = "user.register.html"
     form_class = UserRegisterForm
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('user_list')
     success_message = "Se registró con éxito"
     #group_required = u"Administrador"
     model = User
@@ -107,6 +112,7 @@ class RegisterView(LoginRequiredMixin, SuccessMessageMixin,FormView):
         perfil = Perfil()
         perfil.cedula = form.cleaned_data['cedula']
         perfil.parroquia = parroquia
+        perfil.cargo = form.cleaned_data['cargo']
         perfil.user = self.object
         perfil.save() 
         
@@ -135,8 +141,8 @@ class PerfilUpdate(SuccessMessageMixin,LoginRequiredMixin,UpdateView):
         @param kwargs <b>{object}</b> Objeto que contiene los datos de contexto
         @return: Direcciona al 403 si no es su perfil
         """
-        if int(self.request.user.id) != int(self.kwargs['pk']):
-            return redirect('base_403')
+        #if int(self.request.user.id) != int(self.kwargs['pk']):
+            ##return redirect('base_403')
         return super(PerfilUpdate, self).dispatch(request, *args, **kwargs)
     
     def get_object(self, queryset=None):
@@ -196,3 +202,38 @@ class PerfilUpdate(SuccessMessageMixin,LoginRequiredMixin,UpdateView):
         
         return super(PerfilUpdate, self).form_valid(form)
 
+class PerfilList(LoginRequiredMixin,ListView):
+    """!
+    Clase que gestiona la lista de cargos
+
+    @date 18-02-2018
+    @version 1.0.0
+    """
+    model = Perfil
+    template_name = "perfil.list.html"
+    paginate_by = 10
+
+
+class ConstanciaPdf(PDFTemplateView):
+    """!
+    Clase que gestiona la renderización de constancias en PDF
+
+    @date 20-02-2018
+    @version 1.0.0
+    """
+    template_name = 'constancia.pdf.html'
+
+    def get_context_data(self, **kwargs):
+        """!
+        Metodo que permite cargar de nuevo valores en los datos de contexto de la vista
+    
+        @date 20-02-2018
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param kwargs <b>{object}</b> Objeto que contiene los datos de contexto
+        @return Retorna los datos de contexto
+        """
+        perfil = Perfil.objects.get(user_id=self.request.user.id)
+        kwargs['name'] = perfil.user.first_name + " " + perfil.user.last_name
+        kwargs['cedula'] = perfil.cedula
+        kwargs['cargo'] = perfil.cargo.nombre
+        return super(ConstanciaPdf, self).get_context_data(**kwargs)

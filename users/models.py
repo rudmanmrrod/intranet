@@ -22,6 +22,9 @@ class Cargos(models.Model):
     ## Descripción del cargo
     descripcion = models.CharField(max_length=150,unique=True)
 
+    def __str__(self):
+        return self.nombre
+
 
 class Perfil(models.Model):
     """!
@@ -41,3 +44,6 @@ class Perfil(models.Model):
     
     ## Relación con el user de django
     user = models.ForeignKey(User)
+
+    def __str__(self):
+        return self.user.username

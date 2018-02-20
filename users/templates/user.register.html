@@ -98,6 +98,19 @@
           
         </div>
       </div><br><br><br>
+
+      <div class="col m12 s12">
+        <div class="input-field {% if form.cargo.errors %}invalid{% endif %}">
+          <div class="col m4 s4">
+            {{ form.cargo }}
+            <label for="{{ form.cargo.auto_id }}">
+              {{ form.cargo.label }}
+            </label>
+            {% include 'base.forms.errors.html' with form_errors=form.cargo.errors col_title_error='col s2' col_msg_error='col s10' %}
+          </div>
+          
+        </div>
+      </div><br><br><br>
       
       <div class="row">
         <div class="col m4 s4">
