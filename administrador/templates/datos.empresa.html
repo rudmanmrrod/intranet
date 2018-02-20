@@ -1,0 +1,103 @@
+{% extends 'base.template.html' %}
+{% load staticfiles %}
+{% block title %}Empresa{% endblock %}
+{% block content %}
+  <div class="center">
+    <h1>Configuración de los datos de la empresa</h1><hr>
+    <form action="" method="post">
+    {% csrf_token %}
+      <div class="col m12 s12">
+        <div class="input-field {% if form.nombre.errors %}invalid{% endif %}">
+          <div class="col m4 s4">
+            {{ form.nombre }}
+            <label for="{{ form.nombre.auto_id }}">
+              {{ form.nombre.label }}
+            </label>
+            {% include 'base.forms.errors.html' with form_errors=form.nombre.errors col_title_error='col s2' col_msg_error='col s10' %}
+          </div>
+          
+        </div>
+      </div><br><br><br>
+           
+      <div class="col m12 s12">
+        <div class="input-field {% if form.telefono.errors %}invalid{% endif %}">
+          <div class="col m4 s4">
+            {{ form.telefono }}
+            <label for="{{ form.telefono.auto_id }}">
+              {{ form.telefono.label }}
+            </label>
+            {% include 'base.forms.errors.html' with form_errors=form.telefono.errors col_title_error='col s2' col_msg_error='col s10' %}
+          </div>
+          
+        </div>
+      </div><br><br><br>
+          
+      <div class="col m12 s12">
+        <div class="input-field {% if form.nombre_encargado.errors %}invalid{% endif %}">
+          <div class="col m4 s4">
+            {{ form.nombre_encargado }}
+            <label for="{{ form.nombre_encargado.auto_id }}">
+              {{ form.nombre_encargado.label }}
+            </label>
+            {% include 'base.forms.errors.html' with form_errors=form.nombre_encargado.errors col_title_error='col s2' col_msg_error='col s10' %}
+          </div>
+          
+        </div>
+      </div><br><br><br>
+
+      <div class="col m12 s12">
+        <div class="input-field {% if form.direccion.errors %}invalid{% endif %}">
+          <div class="col m4 s4">
+            {{ form.direccion }}
+            <label for="{{ form.direccion.auto_id }}">
+              {{ form.direccion.label }}
+            </label>
+            {% include 'base.forms.errors.html' with form_errors=form.direccion.errors col_title_error='col s2' col_msg_error='col s10' %}
+          </div>
+          
+        </div>
+      </div><br><br><br>
+          
+      <div class="row">
+        <div class="col m4 s4">
+          <div class="input-field {% if form.estado.errors %}invalid{% endif %}">
+            {{ form.estado }}
+            <label for="{{ form.estado.auto_id }}">
+              {{ form.estado.label }}
+            </label>
+            {% include 'base.forms.errors.html' with form_errors=form.estado.errors col_title_error='col s2' col_msg_error='col s10' %}
+          </div>
+        </div>
+        
+        <div class="col m4 s4">
+          <div class="input-field {% if form.municipio.errors %}invalid{% endif %}">
+            {{ form.municipio }}
+            <label for="{{ form.municipio.auto_id }}">
+              {{ form.municipio.label }}
+            </label>
+            {% include 'base.forms.errors.html' with form_errors=form.municipio.errors col_title_error='col s2' col_msg_error='col s10' %}
+          </div>
+        </div>
+        
+        <div class="col m4 s4">
+          <div class="input-field {% if form.parroquia.errors %}invalid{% endif %}">
+            {{ form.parroquia }}
+            <label for="{{ form.parroquia.auto_id }}">
+              {{ form.parroquia.label }}
+            </label>
+            {% include 'base.forms.errors.html' with form_errors=form.parroquia.errors col_title_error='col s2' col_msg_error='col s10' %}
+          </div>
+        </div>
+      </div>
+
+      <br />
+      <br />
+      <br />
+
+      <div class="col m12 s12">
+         <button type="submit" class="btn waves-effect teal">Registrar</button>
+      </div>
+    </form>
+  </div>
+  <br />
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.template.html' %}
+{% load staticfiles %}
+{% block title %}Cargos{% endblock %}
+{% block content %}
+    <h1 class="center">Cargos</h1><hr>
+    <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'cargo_create' %}">
+        <i class="material-icons left">add</i> Crear Nuevo Cargo
+    </a>
+    
+    {% for consulta in object_list %}
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title"><b>Nombre del cargo: </b>{{ consulta.nombre }}</span><br/>
+                <span><b>Descripción: </b>{{ consulta.descripcion }}</span>
+            </div>
+            <div class="card-action">
+                <a type="button" class="btn waves-effect teal lighten-1" href="">
+                    <i class="material-icons left">edit</i> Editar
+                </a>
+                <a type="button" class="btn waves-effect teal lighten-1" href="">
+                    <i class="material-icons left">delete</i> Eliminar
+                </a>
+            </div>
+        </div>
+    {% empty %}
+        <h3>No existen cargos.</h3>
+    {% endfor %}
+    {% include 'base.paginator.html' with paginator=page_obj %}
+    <div style="padding-bottom: 50px;">
+        <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'inicio' %}">Regresar</a>
+    </div>
+{% endblock %}

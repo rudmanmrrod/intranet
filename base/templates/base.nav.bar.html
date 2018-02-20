@@ -1,0 +1,25 @@
+<nav class="teal">
+  <div class="nav-wrapper">
+    <a class="brand-logo" href="{% url 'inicio' %}">Intranet</a>
+    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+    <ul class="side-nav" id="mobile-demo">
+      <li><a href="sass.html">Sass</a></li>
+      <li><a href="badges.html">Components</a></li>
+      <li><a href="collapsible.html">Javascript</a></li>
+      <li><a href="mobile.html">Mobile</a></li>
+    </ul>
+    {% if request.user.is_authenticated %}
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li><a href="#!" class="dropdown-button" data-activates="dropdown1">Bienvenido <b>{{request.user.username}}</b> <i class="material-icons right">arrow_drop_down</i></a></li>
+      <ul id='dropdown1' class='dropdown-content'>
+        <li><a href="{% url 'update' request.user.id %}">Perfil</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+      </ul>
+    </ul>
+    {% else %}
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="#">Bienvenido <b>Anónimo</b></a></li>
+      </ul>
+    {% endif %}
+  </div>
+</nav>

@@ -1,0 +1,51 @@
+body {
+     display: flex;
+     min-height: 100vh;
+     flex-direction: column;
+ }
+ main {
+     flex: 1 0 auto;
+ }
+ 
+/* Input colors */
+.input-field .prefix.active{
+    color: #009688;
+}
+
+.input-field input[type=text]:focus + label,
+.input-field input[type=password]:focus + label
+{
+  color: #009688;
+}
+.input-field input[type=text]:focus,
+.input-field input[type=password]:focus
+{
+  border-bottom: 1px solid #009688;
+  box-shadow: 0 1px 0 0 #009688;
+}
+
+.invalid input {
+    border-bottom: 1px solid #F44336;
+    box-shadow: 0 1px 0 0 #F44336;
+}
+
+.invalid label,.invalid  i, .errorlist, .danger {
+    color: #F44336;
+}
+
+.dropdown-content li>a, .dropdown-content li>span {
+    color: #009688;
+}
+
+[type="checkbox"]:checked+label:before {
+    border-right: 2px solid #009688;
+    border-bottom: 2px solid #009688;
+}
+
+#tiny{
+    font-size: 1rem;
+}
+
+a{
+    color: #009688;
+}

@@ -1,0 +1,26 @@
+{% extends 'base.template.html' %}
+{% load staticfiles %}
+{% block title %}Registrar Cargo{% endblock %}
+{% block content %}
+    <form action="" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
+        {% csrf_token %}
+        <div class="center">
+            <h1>Registrar Cargo</h1><hr>
+            {% for field in form %}
+                {% if field.label != "Token" %}
+                    <div class="input-field {% if field.errors %}invalid{% endif %}">
+                        {{ field }}
+                        <label for="{{ field.auto_id }}">
+                            {{ field.label }}
+                        </label>
+                        {% include 'base.forms.errors.html' with form_errors=field.errors col_title_error='col s2' col_msg_error='col s10' %}
+                    </div>
+                {%endif%}
+             {% endfor %}
+             <div>
+                 <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'cargo_list' %}">Regresar</a>
+                <button type="submit" class="btn waves-effect teal lighten-1">Registrar</button>
+             </div>
+        </div>
+    </form>
+{% endblock %}
