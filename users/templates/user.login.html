@@ -20,8 +20,7 @@
         </div>
         
         <div class="row">
-            <a href="{% url 'reset' %}" style="cursor: pointer">¿Olvido su contraseña?</a> <span class="separator_link">|</span>
-            <a href="{% url 'register' %}" style="cursor: pointer">Registrarse</a>
+            <a href="{% url 'reset' %}" style="cursor: pointer">¿Olvido su contraseña?</a>
         </div>
         
         <div class="row">
@@ -30,7 +29,7 @@
                 <label for="id_remember_me">{{form.remember_me.label}}</label>
             </p>
         </div>
-        <div class="row">
+        <div class="row" style="display:none">
             <div class="col s4 offset-s5">
                 <div class="input-field {% if form.captcha.errors %}invalid{% endif %}">
                     <label>{{form.captcha.label}}</label>

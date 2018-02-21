@@ -20,6 +20,7 @@ from django.contrib.auth.models import User, Group
 from django.http import HttpResponseForbidden, JsonResponse
 from braces.views import GroupRequiredMixin
 from easy_pdf.views import PDFTemplateView
+from datetime import datetime
 from .forms import (
     LoginForm, UserRegisterForm, 
     PerfilForm, PasswordChangeForm
@@ -290,10 +291,15 @@ class ConstanciaPdf(PDFTemplateView,GroupRequiredMixin):
         kwargs['name'] = perfil.user.first_name + " " + perfil.user.last_name
         kwargs['cedula'] = perfil.cedula
         kwargs['cargo'] = perfil.cargo.nombre
+        kwargs['sueldo'] = perfil.sueldo
+        kwargs['fecha_ingreso'] = perfil.fecha_ingreso
         empresa = Empresa.objects.first()
         kwargs['empresa'] = empresa.nombre
+        kwargs['empleador'] = empresa.nombre_encargado
+        kwargs['correo'] = empresa.correo
         kwargs['direccion'] = empresa.direccion
         kwargs['telefono'] = empresa.telefono
+        kwargs['fecha'] = datetime.now()
         return super(ConstanciaPdf, self).get_context_data(**kwargs)
 
 

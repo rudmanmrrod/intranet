@@ -1,0 +1,127 @@
+<form action="" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
+    {% csrf_token %}
+    <div class="center">
+        <h3>Actualizar Perfil</h3><hr>
+
+        <div class="col m12 s12">
+            <div class="input-field {% if form.nombre.errors %}invalid{% endif %}">
+                <div class="col m4 s4">
+                    <div class="row">
+                        {{ form.nombre }}
+                        <label for="{{ form.nombre.auto_id }}">
+                            {{ form.nombre.label }}
+                        </label>
+                    </div>
+                    {% include 'base.forms.errors.html' with form_errors=form.nombre.errors col_title_error='col s2' col_msg_error='col s10' %}
+                </div>
+            </div>
+        </div><br><br><br>
+
+        <div class="col m12 s12">
+            <div class="input-field {% if form.apellido.errors %}invalid{% endif %}">
+                <div class="col m4 s4">
+                    <div class="row">
+                        {{ form.apellido }}
+                        <label for="{{ form.apellido.auto_id }}">
+                            {{ form.apellido.label }}
+                        </label>
+                    </div>
+                    {% include 'base.forms.errors.html' with form_errors=form.apellido.errors col_title_error='col s2' col_msg_error='col s10' %}
+                </div>
+            </div>
+        </div><br><br><br>
+
+        <div class="col m12 s12">
+            <div class="input-field {% if form.cedula.errors %}invalid{% endif %}">
+                <div class="col m4 s4">
+                    <div class="row">
+                        {{ form.cedula }}
+                        <label for="{{ form.cedula.auto_id }}">
+                            {{ form.cedula.label }}
+                        </label>
+                    </div>
+                    {% include 'base.forms.errors.html' with form_errors=form.cedula.errors col_title_error='col s2' col_msg_error='col s10' %}
+                </div>
+            </div>
+        </div><br><br><br>
+
+        <div class="col m12 s12">
+            <div class="input-field {% if form.cargo.errors %}invalid{% endif %}">
+                <div class="col m4 s4">
+                    <div class="row">
+                        {{ form.cargo }}
+                        <label for="{{ form.cargo.auto_id }}">
+                            {{ form.cargo.label }}
+                        </label>
+                    </div>
+                    {% include 'base.forms.errors.html' with form_errors=form.cargo.errors col_title_error='col s2' col_msg_error='col s10' %}
+                </div>
+            </div>
+        </div><br><br><br>
+
+        <div class="col m12 s12">
+            <div class="input-field {% if form.sueldo.errors %}invalid{% endif %}">
+                <div class="col m4 s4">
+                    <div class="row">
+                        {{ form.sueldo }}
+                        <label for="{{ form.sueldo.auto_id }}">
+                            {{ form.sueldo.label }}
+                        </label>
+                    </div>
+                    {% include 'base.forms.errors.html' with form_errors=form.sueldo.errors col_title_error='col s2' col_msg_error='col s10' %}
+                </div>
+            </div>
+        </div><br><br><br>
+
+
+        <div class="col m12 s12">
+            <div class="input-field {% if form.fecha_ingreso.errors %}invalid{% endif %}">
+                <div class="col m4 s4">
+                    <div class="row">
+                        {{ form.fecha_ingreso }}
+                        <label for="{{ form.fecha_ingreso.auto_id }}">
+                            {{ form.fecha_ingreso.label }}
+                        </label>
+                    </div>
+                    {% include 'base.forms.errors.html' with form_errors=form.fecha_ingreso.errors col_title_error='col s2' col_msg_error='col s10' %}
+                </div>
+            </div>
+        </div><br><br><br>
+        
+        <div class="row">
+            <div class="col m4 s4">
+                <div class="input-field {% if form.estado.errors %}invalid{% endif %}">
+                    {{ form.estado }}
+                    <label for="{{ form.estado.auto_id }}">
+                        {{ form.estado.label }}
+                    </label>
+                    {% include 'base.forms.errors.html' with form_errors=form.estado.errors col_title_error='col s2' col_msg_error='col s10' %}
+                </div>
+            </div>
+            
+            <div class="col m4 s4">
+                <div class="input-field {% if form.municipio.errors %}invalid{% endif %}">
+                    {{ form.municipio }}
+                    <label for="{{ form.municipio.auto_id }}">
+                            {{ form.municipio.label }}
+                    </label>
+                    {% include 'base.forms.errors.html' with form_errors=form.municipio.errors col_title_error='col s2' col_msg_error='col s10' %}
+                </div>
+            </div>
+            
+            <div class="col m4 s4">
+                <div class="input-field {% if form.parroquia.errors %}invalid{% endif %}">
+                    {{ form.parroquia }}
+                    <label for="{{ form.parroquia.auto_id }}">
+                        {{ form.parroquia.label }}
+                    </label>
+                    {% include 'base.forms.errors.html' with form_errors=form.parroquia.errors col_title_error='col s2' col_msg_error='col s10' %}
+                </div>
+            </div>
+        </div>
+        <br><br><br><br>
+         <div class="col-md-12 col-sm-12 col-xs-12">
+            <button type="submit" class="btn waves-effect teal">Actualizar</button>
+         </div>
+    </div>
+</form>

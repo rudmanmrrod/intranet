@@ -1,0 +1,24 @@
+{% extends 'base.template.html' %}
+{% load staticfiles %}
+{% block title %}Datos Personales{% endblock %}
+{% block content %}
+	<aside style="heigth:150px;color:white" class="teal center"><h2>Datos del Perfil<h2/></aside>
+	{% include 'perfil.form.html' with form=form %}
+	<br/><br/>
+	<aside style="heigth:150px;color:white" class="teal center"><h2>Cambiar Contraseña<h2/></aside>
+	{% include 'change_password.form.html' with form=update_form %}
+	<br/><br/>
+	<a type="button" class="btn waves-effect teal" href="{% url 'user_list' %}">Regresar</a>
+
+	
+{% endblock %}
+
+{% block extraJs %}
+<script type="text/javascript">
+  $('.datepicker').pickadate({
+    selectMonths: true,
+    selectYears: 15,
+    format: 'dd/mm/yyyy'
+  });
+</script>
+{%endblock%}
