@@ -42,3 +42,32 @@ function actualizar_combo(opcion, app, mod, campo, n_value, n_text, combo_destin
         console.log('Petición fállida ' + err)
     });
 }
+
+/**
+ * Función para cambiar la contraseña
+ * @param event Recibe el evento
+**/
+function change_password(event) {
+    event.preventDefault();
+    if($('#id_old_password').val()=='' || $('#id_new_password').val()=='' || $('#id_new_password_repeat').val()==''){
+        MaterialDialog.alert('Debes llenar todos los campos',{'title':'Alerta'});
+    }
+    else if($('#id_new_password').val()!==$('#id_new_password_repeat').val()){
+        MaterialDialog.alert('Las contraseñas no coinciden',{'title':'Alerta'});
+    }
+    else{
+        $.ajax({
+            data: $('.change_form').serialize(), 
+            type: 'POST',
+            url: URL_CHANGE_PASSWORD,
+            success: function(response) {
+                if (response.success) {
+                    MaterialDialog.alert(response.mensaje,{'title':'Éxito'});
+                }
+                else{
+                    MaterialDialog.alert(response.mensaje,{'title':'Error'});
+                }
+            }
+        });
+    } 
+}

@@ -46,7 +46,7 @@ class Perfil(models.Model):
     sueldo = models.DecimalField(max_digits=20,decimal_places=2)
 
     ## Fecha de Ingreso
-    fecha_ingreso = models.DateTimeField()
+    fecha_ingreso = models.DateField()
     
     ## Relación con el user de django
     user = models.ForeignKey(User)

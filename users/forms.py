@@ -181,7 +181,7 @@ class UserRegisterForm(forms.ModelForm):
         )
 
     ## Fecha de Ingreso
-    fecha_ingreso = forms.DateTimeField(
+    fecha_ingreso = forms.DateField(
         widget=forms.TextInput(attrs={'type':"date", 'class':"datepicker"}),
         label="Fecha de Ingreso"
         )
@@ -267,6 +267,33 @@ class PerfilForm(forms.ModelForm):
     ## parroquia
     parroquia = forms.ChoiceField(widget=forms.Select())
 
+    ## nombre
+    nombre = forms.CharField(max_length=100,
+        widget=forms.TextInput(),
+        label="Nombre"
+        )
+
+    ## apellido
+    apellido = forms.CharField(max_length=100,
+        widget=forms.TextInput(),
+        label="Apellido"
+        )
+
+    ## cargo
+    cargo = forms.ModelChoiceField(queryset=Cargos.objects.all(),empty_label="Seleccione...")
+
+    ## Sueldo
+    sueldo = forms.DecimalField(
+        widget=forms.TextInput(),
+        label="Sueldo"
+        )
+
+    ## Fecha de Ingreso
+    fecha_ingreso = forms.DateField(
+        widget=forms.TextInput(attrs={'type':"date", 'class':"datepicker"}),
+        label="Fecha de Ingreso"
+        )
+
     class Meta:
         model = Perfil
         exclude = ['user','parroquia']
@@ -311,3 +338,29 @@ class PasswordConfirmForm(SetPasswordForm):
                                                   'placeholder': 'Contraseña Nueva'})
         self.fields['new_password2'].widget.attrs.update({'class': 'input-field',
                                                   'placeholder': 'Repita su Contraseña'})
+
+
+class PasswordChangeForm(forms.Form):
+    """!
+    Formulario de Registro
+
+    @date 20-02-2018
+    @version 1.0.0
+    """
+    ## Antigua Contraseña
+    old_password = forms.CharField(max_length=20,
+        widget=forms.TextInput(attrs={'type':'password'}),
+        label="Antigua contraseña"
+        )
+
+    ## Nueva Contraseña
+    new_password = forms.CharField(max_length=20,
+        widget=forms.TextInput(attrs={'type':'password'}),
+        label="Nueva contraseña"
+        )
+
+    ## Repita la Nueva Contraseña
+    new_password_repeat = forms.CharField(max_length=20,
+        widget=forms.TextInput(attrs={'type':'password'}),
+        label="Repita su nueva contraseña"
+        )

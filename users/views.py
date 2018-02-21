@@ -8,17 +8,22 @@ Sistema de Intranet
 from django.shortcuts import render, redirect
 from django.views.generic import (
     FormView, RedirectView, CreateView, 
-    UpdateView, ListView
+    UpdateView, ListView, TemplateView
     )
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import authenticate, logout, login
+from django.contrib.auth.hashers import check_password
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.models import User, Group
-from django.contrib import messages
+from django.http import HttpResponseForbidden, JsonResponse
 from braces.views import GroupRequiredMixin
 from easy_pdf.views import PDFTemplateView
-from .forms import LoginForm, UserRegisterForm, PerfilForm
+from .forms import (
+    LoginForm, UserRegisterForm, 
+    PerfilForm, PasswordChangeForm
+    )
 from .models import Perfil
 from base.models import Parroquia, Empresa
 
@@ -113,12 +118,14 @@ class RegisterView(LoginRequiredMixin, GroupRequiredMixin, SuccessMessageMixin,F
         perfil.cedula = form.cleaned_data['cedula']
         perfil.parroquia = parroquia
         perfil.cargo = form.cleaned_data['cargo']
+        perfil.sueldo = form.cleaned_data['sueldo']
+        perfil.fecha_ingreso = form.cleaned_data['fecha_ingreso']
         perfil.user = self.object
         perfil.save() 
         
         return super(RegisterView, self).form_valid(form)
     
-class PerfilUpdate(SuccessMessageMixin,GroupRequiredMixin,LoginRequiredMixin,UpdateView):
+class PerfilUpdate(LoginRequiredMixin,SuccessMessageMixin,GroupRequiredMixin,UpdateView):
     """!
     Clase que gestiona la actualización del perfil
 
@@ -130,21 +137,6 @@ class PerfilUpdate(SuccessMessageMixin,GroupRequiredMixin,LoginRequiredMixin,Upd
     form_class = PerfilForm
     success_message = "Se actualizó el perfil con éxito"
     group_required = u"Administrador"
-    
-    def dispatch(self, request, *args, **kwargs):
-        """
-        Metodo que redirecciona al usuario si no cuenta con los permisos
-    
-        @date 24-04-2017
-        @param self <b>{object}</b> Objeto que instancia la clase
-        @param request <b>{object}</b> Objeto que contiene la petición
-        @param args <b>{object}</b> Objeto que contiene los argumentos
-        @param kwargs <b>{object}</b> Objeto que contiene los datos de contexto
-        @return: Direcciona al 403 si no es su perfil
-        """
-        #if int(self.request.user.id) != int(self.kwargs['pk']):
-            ##return redirect('base_403')
-        return super(PerfilUpdate, self).dispatch(request, *args, **kwargs)
     
     def get_object(self, queryset=None):
         """
@@ -179,6 +171,12 @@ class PerfilUpdate(SuccessMessageMixin,GroupRequiredMixin,LoginRequiredMixin,Upd
         """
         initial = super(PerfilUpdate, self).get_initial()
         perfil = Perfil.objects.get(user_id=self.kwargs['pk'])
+        initial['cargo'] = perfil.cargo_id
+        initial['nombre'] = perfil.user.first_name
+        initial['apellido'] = perfil.user.last_name
+        initial['sueldo'] = perfil.sueldo
+        #initial['fecha_ingreso'] = str(perfil.fecha_ingreso.strftime('%d/%m/%Y'))
+        initial['fecha_ingreso'] = perfil.fecha_ingreso
         initial['parroquia'] = perfil.parroquia_id
         initial['municipio'] = perfil.parroquia.municipio_id
         initial['estado'] = perfil.parroquia.municipio.entidad_id
@@ -198,10 +196,63 @@ class PerfilUpdate(SuccessMessageMixin,GroupRequiredMixin,LoginRequiredMixin,Upd
         
         self.object = form.save()
         self.object.cedula = form.cleaned_data['cedula']
+        self.object.sueldo = form.cleaned_data['sueldo']
+        self.object.fecha_ingreso = form.cleaned_data['fecha_ingreso']
+        self.object.cargo = form.cleaned_data['cargo']
         self.object.parroquia = parroquia
         self.object.save()
+
+        user = User.objects.get(pk=self.kwargs['pk'])
+        user.first_name = form.cleaned_data['nombre']
+        user.last_name = form.cleaned_data['apellido']
+        user.save()
         
         return super(PerfilUpdate, self).form_valid(form)
+
+
+class UserPerfilUpdate(PerfilUpdate, GroupRequiredMixin):
+    group_required = u"Usuario"
+    template_name = "perfil.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        """
+        Metodo que redirecciona al usuario si no cuenta con los permisos
+    
+        @date 24-04-2017
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param args <b>{object}</b> Objeto que contiene los argumentos
+        @param kwargs <b>{object}</b> Objeto que contiene los datos de contexto
+        @return: Direcciona al 403 si no es su perfil
+        """
+        if int(self.request.user.id) != int(self.kwargs['pk']):
+            #messages.info(request,'No tienes permiso para hacer esto')
+            return HttpResponseForbidden()
+        return super(UserPerfilUpdate, self).dispatch(request, *args, **kwargs)
+
+    def get_success_url(self):
+        """!
+        Metodo que permite definir la url de dirección al ser válido el formulario
+    
+        @date 24-04-2017
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Retorna la url
+        """
+        return reverse_lazy('update_user',
+                            kwargs={'pk': self.kwargs['pk']})
+
+    def get_context_data(self, **kwargs):
+        """!
+        Metodo que permite cargar de nuevo valores en los datos de contexto de la vista
+    
+        @date 20-02-2018
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param kwargs <b>{object}</b> Objeto que contiene los datos de contexto
+        @return Retorna los datos de contexto
+        """
+        kwargs['update_form'] = PasswordChangeForm()
+        return super(UserPerfilUpdate, self).get_context_data(**kwargs)
+
 
 class PerfilList(LoginRequiredMixin,GroupRequiredMixin,ListView):
     """!
@@ -244,3 +295,42 @@ class ConstanciaPdf(PDFTemplateView,GroupRequiredMixin):
         kwargs['direccion'] = empresa.direccion
         kwargs['telefono'] = empresa.telefono
         return super(ConstanciaPdf, self).get_context_data(**kwargs)
+
+
+class ChangePasswordView(LoginRequiredMixin,TemplateView):
+    """!
+    Clase que gestiona el borrado de una pregunta
+
+    @date 20-02-2018
+    @version 1.0.0
+    """
+    template_name = "change_password.form.html"
+    
+    def post(self, request):
+        """!
+        Metodo que sobreescribe la acción por POST
+    
+        @date 20-02-2018
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param pk <b>{int}</b> Recibe el id del perfil
+        @return Retorna los datos de contexto
+        """
+        perfil = Perfil.objects.filter(user_id=int(request.user.id))
+        if perfil:
+            perfil = perfil.get()
+            old_p = request.POST.get('old_password','')
+            new_p = request.POST.get('new_password','')
+            new_rp = request.POST.get('new_password_repeat','')
+            if old_p=='' or new_p=='' or new_rp=='':
+                return JsonResponse({'success':False,'mensaje':'Datos Vacíos'})
+            elif new_p != new_rp:
+                return JsonResponse({'success':False,'mensaje':'Las contraseñas no coinciden'})
+            elif not check_password(old_p,perfil.user.password):
+                return JsonResponse({'success':False,'mensaje':'La contraseña anterior es inválida'})
+            else:
+                perfil.user.set_password(new_p)
+                perfil.user.save()
+                return JsonResponse({'success':True,'mensaje':'Se cambió la contraseña con éxito'})
+        else:
+            return JsonResponse({'success':False,'mensaje':'Perfil Invalido'})

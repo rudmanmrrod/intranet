@@ -16,6 +16,8 @@ urlpatterns = [
     url(r'^logout$', LogoutView.as_view(), name = "logout"),
     url(r'^register$', RegisterView.as_view(), name = "register"),
     url(r'^update/(?P<pk>\d+)$', PerfilUpdate.as_view(), name = "update"),
+    url(r'^update_profile/(?P<pk>\d+)$', UserPerfilUpdate.as_view(), name = "update_user"),
+    url(r'^change_password/$', ChangePasswordView.as_view(), name = "change_password"),
     url(r'^constancia-trabajo$', ConstanciaPdf.as_view(), name = "constancia"),
     url(r'^password/reset/$', password_reset,
         {'post_reset_redirect': '/password/done/',
