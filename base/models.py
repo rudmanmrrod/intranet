@@ -71,15 +71,18 @@ class Empresa(models.Model):
     @version 1.0.0
     """
     ## Nombre de la empresa
-    nombre = models.CharField(max_length=128,unique=True)
+    nombre = models.CharField(max_length=128)
     
     ## Dirección de la empresa
     direccion = models.CharField(max_length=255)
+
+    ## Correo de la empresa
+    correo = models.EmailField()
     
     ## telefono
     telefono = models.CharField(max_length=25)
 
-    ## telefono
+    ## Nombre del Encargado
     nombre_encargado = models.CharField(max_length=128)
 
     ## Relación con la parroquia

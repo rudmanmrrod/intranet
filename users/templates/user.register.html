@@ -111,6 +111,32 @@
           
         </div>
       </div><br><br><br>
+
+      <div class="col m12 s12">
+        <div class="input-field {% if form.sueldo.errors %}invalid{% endif %}">
+          <div class="col m4 s4">
+            {{ form.sueldo }}
+            <label for="{{ form.sueldo.auto_id }}">
+              {{ form.sueldo.label }}
+            </label>
+            {% include 'base.forms.errors.html' with form_errors=form.sueldo.errors col_title_error='col s2' col_msg_error='col s10' %}
+          </div>
+          
+        </div>
+      </div><br><br><br>
+
+      <div class="col m12 s12">
+        <div class="input-field {% if form.fecha_ingreso.errors %}invalid{% endif %}">
+          <div class="col m4 s4">
+            {{ form.fecha_ingreso }}
+            <label for="{{ form.fecha_ingreso.auto_id }}">
+              {{ form.fecha_ingreso.label }}
+            </label>
+            {% include 'base.forms.errors.html' with form_errors=form.fecha_ingreso.errors col_title_error='col s2' col_msg_error='col s10' %}
+          </div>
+          
+        </div>
+      </div><br><br><br>
       
       <div class="row">
         <div class="col m4 s4">
@@ -155,3 +181,13 @@
   </div>
   <br />
 {% endblock %}
+
+{% block extraJs %}
+<script type="text/javascript">
+  $('.datepicker').pickadate({
+    selectMonths: true,
+    selectYears: 15,
+    format: 'dd/mm/yyyy'
+  });
+</script>
+{%endblock%}

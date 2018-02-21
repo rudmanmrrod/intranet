@@ -41,6 +41,12 @@ class Perfil(models.Model):
 
     ## Cargo
     cargo = models.ForeignKey(Cargos)
+
+    ## Sueldo
+    sueldo = models.DecimalField(max_digits=20,decimal_places=2)
+
+    ## Fecha de Ingreso
+    fecha_ingreso = models.DateTimeField()
     
     ## Relación con el user de django
     user = models.ForeignKey(User)

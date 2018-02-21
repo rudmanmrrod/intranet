@@ -24,6 +24,9 @@
                     vertical-align: top;
                     border:  1px solid #ddd;
               }
+              .small{
+                font-size: 10px;
+              }
           </style>
     </head>
     <body>
@@ -38,6 +41,8 @@
           <p>Constancia que se expide a petición de la parte interesada el día {{fecha}}.</p>
 
           Atentamente, {{empleador}}
+          <br/><br/><br/><br/><br/>
+          <p class="text-center small">{{direccion}}. Correo: {{correo}}. Telefono {{telefono}}</p>
         </div>
     </body>
 </html>

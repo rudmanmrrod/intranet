@@ -12,11 +12,12 @@ from django.core.urlresolvers import reverse_lazy
 from django.views.generic import (
 	CreateView, UpdateView, ListView, DeleteView,FormView
 )
+from braces.views import GroupRequiredMixin
 from base.models import Empresa, Parroquia
 from users.models import Cargos
 from .forms import EmpresaForm
 
-class EmpresaConfigView(FormView):
+class EmpresaConfigView(LoginRequiredMixin,GroupRequiredMixin,FormView):
 	"""!
 	Muestra el formulario de datos de la empresa
 
@@ -27,6 +28,7 @@ class EmpresaConfigView(FormView):
 	form_class = EmpresaForm
 	success_url = reverse_lazy('empresa_datos')
 	success_message = "Se registró con éxito"
+	group_required = u"Administrador"
 
 	def get_initial(self):
 		"""!
@@ -42,6 +44,7 @@ class EmpresaConfigView(FormView):
 			initial['nombre'] = empresa.nombre
 			initial['direccion'] = empresa.direccion
 			initial['telefono'] = empresa.telefono
+			initial['correo'] = empresa.correo
 			initial['nombre_encargado'] = empresa.nombre_encargado
 			initial['parroquia'] = empresa.parroquia_id
 			initial['municipio'] = empresa.parroquia.municipio_id
@@ -59,14 +62,15 @@ class EmpresaConfigView(FormView):
 		@return Retorna el formulario validado
 		"""
 		empresa = Empresa.objects.first()
+		if not empresa:
+			empresa = Empresa()
 
-		self.object = form.save()
-		self.object.nombre = form.cleaned_data['nombre']
-		self.object.direccion = form.cleaned_data['direccion']
-		self.object.telefono = form.cleaned_data['telefono']
-		self.object.nombre_encargado = form.cleaned_data['nombre_encargado']
-		self.object.parroquia = form.cleaned_data['parroquia']
-		self.object.save()
+		empresa.nombre = form.cleaned_data['nombre']
+		empresa.direccion = form.cleaned_data['direccion']
+		empresa.telefono = form.cleaned_data['telefono']
+		empresa.nombre_encargado = form.cleaned_data['nombre_encargado']
+		empresa.parroquia = form.cleaned_data['parroquia']
+		empresa.save()
 
 		return super(EmpresaConfigView, self).form_valid(form)
 
@@ -75,7 +79,12 @@ class EmpresaConfigView(FormView):
 		return super(EmpresaConfigView, self).form_invalid(form)
 
 
-class CargoCreate(LoginRequiredMixin,SuccessMessageMixin,CreateView):
+	def form_invalid(self,form):
+		print(form.errors)
+		return super(EmpresaConfigView, self).form_invalid(form)
+
+
+class CargoCreate(LoginRequiredMixin,GroupRequiredMixin,SuccessMessageMixin,CreateView):
     """!
     Clase que gestiona la creación de cargos
 
@@ -87,9 +96,10 @@ class CargoCreate(LoginRequiredMixin,SuccessMessageMixin,CreateView):
     template_name = "cargos.create.html"
     success_message = "Se registró el cargo con éxito"
     success_url = reverse_lazy('cargo_list')
+    group_required = u"Administrador"
     
 
-class CargoList(LoginRequiredMixin,ListView):
+class CargoList(LoginRequiredMixin,GroupRequiredMixin,ListView):
     """!
     Clase que gestiona la lista de cargos
 
@@ -99,10 +109,10 @@ class CargoList(LoginRequiredMixin,ListView):
     model = Cargos
     template_name = "cargos.list.html"
     paginate_by = 5
-    
+    group_required = u"Administrador"    
     
   
-class CargoDelete(LoginRequiredMixin,SuccessMessageMixin,DeleteView):
+class CargoDelete(LoginRequiredMixin,GroupRequiredMixin,SuccessMessageMixin,DeleteView):
     """!
     Clase que gestiona el borrado de consultas
 
@@ -113,9 +123,10 @@ class CargoDelete(LoginRequiredMixin,SuccessMessageMixin,DeleteView):
     template_name = "cargos.delete.html"
     success_message = "Se eliminó el cargo con éxito"
     success_url = reverse_lazy('cargo_list')
+    group_required = u"Administrador"
     
     
-class CargoUpdate(LoginRequiredMixin,SuccessMessageMixin,UpdateView):
+class CargoUpdate(LoginRequiredMixin,GroupRequiredMixin,SuccessMessageMixin,UpdateView):
     """!
     Clase que gestiona la actualización de cargos
 
@@ -127,4 +138,5 @@ class CargoUpdate(LoginRequiredMixin,SuccessMessageMixin,UpdateView):
     template_name = "cargos.update.html"
     success_message = "Se actualizó el cargo con éxito"
     success_url = reverse_lazy('cargo_list')
+    group_required = u"Administrador"
     

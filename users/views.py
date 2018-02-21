@@ -20,7 +20,7 @@ from braces.views import GroupRequiredMixin
 from easy_pdf.views import PDFTemplateView
 from .forms import LoginForm, UserRegisterForm, PerfilForm
 from .models import Perfil
-from base.models import Parroquia
+from base.models import Parroquia, Empresa
 
 
 
@@ -76,7 +76,7 @@ class LogoutView(RedirectView):
         return reverse_lazy('login')
 
 
-class RegisterView(LoginRequiredMixin, SuccessMessageMixin,FormView):
+class RegisterView(LoginRequiredMixin, GroupRequiredMixin, SuccessMessageMixin,FormView):
     """!
     Muestra el formulario de registro de usuarios
 
@@ -87,7 +87,7 @@ class RegisterView(LoginRequiredMixin, SuccessMessageMixin,FormView):
     form_class = UserRegisterForm
     success_url = reverse_lazy('user_list')
     success_message = "Se registró con éxito"
-    #group_required = u"Administrador"
+    group_required = u"Administrador"
     model = User
 
     def form_valid(self, form, **kwargs):
@@ -118,7 +118,7 @@ class RegisterView(LoginRequiredMixin, SuccessMessageMixin,FormView):
         
         return super(RegisterView, self).form_valid(form)
     
-class PerfilUpdate(SuccessMessageMixin,LoginRequiredMixin,UpdateView):
+class PerfilUpdate(SuccessMessageMixin,GroupRequiredMixin,LoginRequiredMixin,UpdateView):
     """!
     Clase que gestiona la actualización del perfil
 
@@ -129,6 +129,7 @@ class PerfilUpdate(SuccessMessageMixin,LoginRequiredMixin,UpdateView):
     template_name = "perfil.update.html"
     form_class = PerfilForm
     success_message = "Se actualizó el perfil con éxito"
+    group_required = u"Administrador"
     
     def dispatch(self, request, *args, **kwargs):
         """
@@ -202,7 +203,7 @@ class PerfilUpdate(SuccessMessageMixin,LoginRequiredMixin,UpdateView):
         
         return super(PerfilUpdate, self).form_valid(form)
 
-class PerfilList(LoginRequiredMixin,ListView):
+class PerfilList(LoginRequiredMixin,GroupRequiredMixin,ListView):
     """!
     Clase que gestiona la lista de cargos
 
@@ -212,9 +213,10 @@ class PerfilList(LoginRequiredMixin,ListView):
     model = Perfil
     template_name = "perfil.list.html"
     paginate_by = 10
+    group_required = u'Administrador'
 
 
-class ConstanciaPdf(PDFTemplateView):
+class ConstanciaPdf(PDFTemplateView,GroupRequiredMixin):
     """!
     Clase que gestiona la renderización de constancias en PDF
 
@@ -222,6 +224,7 @@ class ConstanciaPdf(PDFTemplateView):
     @version 1.0.0
     """
     template_name = 'constancia.pdf.html'
+    group_required = u"Usuario"
 
     def get_context_data(self, **kwargs):
         """!
@@ -236,4 +239,8 @@ class ConstanciaPdf(PDFTemplateView):
         kwargs['name'] = perfil.user.first_name + " " + perfil.user.last_name
         kwargs['cedula'] = perfil.cedula
         kwargs['cargo'] = perfil.cargo.nombre
+        empresa = Empresa.objects.first()
+        kwargs['empresa'] = empresa.nombre
+        kwargs['direccion'] = empresa.direccion
+        kwargs['telefono'] = empresa.telefono
         return super(ConstanciaPdf, self).get_context_data(**kwargs)

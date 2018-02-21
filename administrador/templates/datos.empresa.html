@@ -57,6 +57,19 @@
           
         </div>
       </div><br><br><br>
+
+      <div class="col m12 s12">
+        <div class="input-field {% if form.correo.errors %}invalid{% endif %}">
+          <div class="col m4 s4">
+            {{ form.correo }}
+            <label for="{{ form.correo.auto_id }}">
+              {{ form.correo.label }}
+            </label>
+            {% include 'base.forms.errors.html' with form_errors=form.correo.errors col_title_error='col s2' col_msg_error='col s10' %}
+          </div>
+          
+        </div>
+      </div><br><br><br>
           
       <div class="row">
         <div class="col m4 s4">

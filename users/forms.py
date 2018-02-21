@@ -174,6 +174,18 @@ class UserRegisterForm(forms.ModelForm):
     ## cargo
     cargo = forms.ModelChoiceField(queryset=Cargos.objects.all(),empty_label="Seleccione...")
 
+    ## Sueldo
+    sueldo = forms.DecimalField(
+        widget=forms.TextInput(),
+        label="Sueldo"
+        )
+
+    ## Fecha de Ingreso
+    fecha_ingreso = forms.DateTimeField(
+        widget=forms.TextInput(attrs={'type':"date", 'class':"datepicker"}),
+        label="Fecha de Ingreso"
+        )
+
     def clean_password_repeat(self):
         """!
         Método que valida si las contraseñas coinciden
