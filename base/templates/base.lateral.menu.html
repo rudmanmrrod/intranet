@@ -1,0 +1,27 @@
+{% load auth_extra %}
+<ul id="slide-out" class="side-nav fixed">
+    <li><h5>Bienvenido a la intranet</h5></li>
+    <li><b>{{request.user.username}}</b></li>
+    <li><div class="divider teal" style="height:2px;"></div></li>
+    <li class="no-padding">
+        <ul class="collapsible collapsible-accordion">
+        {% if request.user|has_group:"Usuario" %} 
+            <li>
+                <a class="collapsible-header">Documentos<i class="material-icons">arrow_drop_down</i></a>
+                <div class="collapsible-body">
+                <ul>
+                    <li><a href="{% url 'constancia' %}">Constancia de Trabajo</a></li>
+                    <li><a href="#!">Otra{{user.groups}}</a></li>
+                </ul>
+                </div>
+            </li>
+        {% elif request.user|has_group:"Administrador" %}
+            <li>
+                <li><a href="{% url 'empresa_datos' %}">Datos Generales</a></li>
+                <li><a href="{% url 'cargo_list' %}">Cargos</a></li>
+                <li><a href="{% url 'user_list' %}">Usuarios</a></li>
+            </li>
+        {% endif %}
+        </ul>
+    </li>
+</ul>

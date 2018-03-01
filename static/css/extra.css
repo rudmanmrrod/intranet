@@ -1,0 +1,13 @@
+header, main, footer, nav {
+	padding-left: 300px;
+}
+
+@media only screen and (max-width : 992px) {
+	header, main, footer, nav {
+		padding-left: 0;
+	}
+}
+
+.side-nav li h5, .side-nav li b{
+    padding: 0 23.5px 0 31px;
+}

@@ -8,6 +8,9 @@
         <link rel="stylesheet" type="text/css" href="{% static "materialize/css/materialize.min.css" %}"/>
         <link rel="stylesheet" type="text/css" href="{% static "materialize/material_icon/icon.css" %}"/>
         <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}"/>
+        {% if request.user.is_authenticated %}
+            <link rel="stylesheet" type="text/css" href="{% static "css/extra.css" %}"/>
+        {% endif %}
         
         <script src="{% static "jquery/jquery-3.1.0.min.js" %}"></script>
         <script src="{% static "materialize/js/materialize.min.js" %}"></script>
@@ -19,6 +22,11 @@
         {% include 'base.nav.bar.html' %}
         <main>
         {% block superContent%}
+            {% if request.user.is_authenticated %}
+                <div id="menu">
+                    {% include 'base.lateral.menu.html' %}
+                </div>
+            {% endif %}
             <div class="container">
                 <div class="card-panel">
                     {% block content %}{% endblock %}
@@ -32,6 +40,7 @@
     {% block extraJs %}{%endblock%}
     <script>
         $(document).ready(function() {
+            $(".button-collapse").sideNav();
             $('select').material_select();
         });
     </script>
