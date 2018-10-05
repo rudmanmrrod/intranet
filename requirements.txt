@@ -1,4 +1,4 @@
-Django==1.11
+Django==1.11.15
 Pillow==5.0.0
 django-braces==1.12.0
 django-easy-pdf==0.1.1
