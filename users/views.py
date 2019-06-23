@@ -16,6 +16,10 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User, Group
+from django.contrib.auth.views import (
+    PasswordResetView, PasswordResetDoneView, 
+    PasswordResetConfirmView, PasswordResetCompleteView
+)
 from django.http import HttpResponseForbidden, JsonResponse
 from django.urls import reverse_lazy
 from braces.views import GroupRequiredMixin
@@ -26,6 +30,7 @@ from .forms import (
     PerfilForm, PasswordChangeForm
     )
 from .models import Perfil
+from .forms import *
 from base.models import Parroquia, Empresa
 
 
