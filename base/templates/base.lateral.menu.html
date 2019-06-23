@@ -10,16 +10,16 @@
                 <a class="collapsible-header">Documentos<i class="material-icons">arrow_drop_down</i></a>
                 <div class="collapsible-body">
                 <ul>
-                    <li><a href="{% url 'constancia' %}">Constancia de Trabajo</a></li>
-                    <li><a href="#!">Otra{{user.groups}}</a></li>
+                    <li><a href="{% url 'users:constancia' %}">Constancia de Trabajo</a></li>
+                    <li><a href="#!">Otra {{user.groups}}</a></li>
                 </ul>
                 </div>
             </li>
         {% elif request.user|has_group:"Administrador" %}
             <li>
-                <li><a href="{% url 'empresa_datos' %}">Datos Generales</a></li>
-                <li><a href="{% url 'cargo_list' %}">Cargos</a></li>
-                <li><a href="{% url 'user_list' %}">Usuarios</a></li>
+                <li><a href="{% url 'administrador:empresa_datos' %}">Datos Generales</a></li>
+                <li><a href="{% url 'administrador:cargo_list' %}">Cargos</a></li>
+                <li><a href="{% url 'administrador:user_list' %}">Usuarios</a></li>
             </li>
         {% endif %}
         </ul>

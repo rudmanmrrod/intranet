@@ -3,7 +3,7 @@
 {% block title %}Usuarios{% endblock %}
 {% block content %}
     <h1 class="center">Usuarios</h1><hr>
-        <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'user_register' %}">
+        <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'administrador:user_register' %}">
         <i class="material-icons left">add</i> Crear Nuevo Usuario
     </a>
     
@@ -18,10 +18,10 @@
                 <span><b>Cargo: </b>{{ perfil.cargo.nombre }}</span><br/>
             </div>
             <div class="card-action">
-                <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'user_update' perfil.user_id %}">
+                <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'administrador:user_update' perfil.user_id %}">
                     <i class="material-icons left">edit</i> Editar
                 </a>
-                <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'cargo_delete' perfil.user_id %}">
+                <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'administrador:cargo_delete' perfil.user_id %}">
                     <i class="material-icons left">delete</i> Eliminar
                 </a>
             </div>
@@ -31,6 +31,6 @@
     {% endfor %}
     {% include 'base.paginator.html' with paginator=page_obj %}
     <div style="padding-bottom: 50px;">
-        <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'inicio' %}">Regresar</a>
+        <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'base:inicio' %}">Regresar</a>
     </div>
 {% endblock %}

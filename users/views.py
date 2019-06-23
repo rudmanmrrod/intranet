@@ -15,9 +15,9 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.hashers import check_password
-from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.models import User, Group
 from django.http import HttpResponseForbidden, JsonResponse
+from django.urls import reverse_lazy
 from braces.views import GroupRequiredMixin
 from easy_pdf.views import PDFTemplateView
 from datetime import datetime
@@ -39,7 +39,7 @@ class LoginView(FormView):
     """
     form_class = LoginForm
     template_name = 'user.login.html'
-    success_url = reverse_lazy('inicio')
+    success_url = reverse_lazy('base:inicio')
 
     def form_valid(self, form):
         """!
@@ -79,7 +79,7 @@ class LogoutView(RedirectView):
         @return Retorna la url
         """
         logout(self.request)
-        return reverse_lazy('login')
+        return reverse_lazy('users:login')
 
 
 class RegisterView(LoginRequiredMixin, GroupRequiredMixin, SuccessMessageMixin,FormView):
@@ -91,7 +91,7 @@ class RegisterView(LoginRequiredMixin, GroupRequiredMixin, SuccessMessageMixin,F
     """
     template_name = "user.register.html"
     form_class = UserRegisterForm
-    success_url = reverse_lazy('user_list')
+    success_url = reverse_lazy('users:user_list')
     success_message = "Se registró con éxito"
     group_required = u"Administrador"
     model = User
@@ -113,7 +113,7 @@ class RegisterView(LoginRequiredMixin, GroupRequiredMixin, SuccessMessageMixin,F
         self.object.email = form.cleaned_data['email']
         self.object.save()
 
-        self.object..groups.add(2)
+        self.object.groups.add(2)
               
         parroquia = Parroquia.objects.get(id=form.cleaned_data['parroquia'])
         
@@ -161,7 +161,7 @@ class PerfilUpdate(LoginRequiredMixin,SuccessMessageMixin,GroupRequiredMixin,Upd
         @param self <b>{object}</b> Objeto que instancia la clase
         @return Retorna la url
         """
-        return reverse_lazy('update',
+        return reverse_lazy('users:update',
                             kwargs={'pk': self.kwargs['pk']})
     
     def get_initial(self):
@@ -241,7 +241,7 @@ class UserPerfilUpdate(PerfilUpdate, GroupRequiredMixin):
         @param self <b>{object}</b> Objeto que instancia la clase
         @return Retorna la url
         """
-        return reverse_lazy('update_user',
+        return reverse_lazy('users:update_user',
                             kwargs={'pk': self.kwargs['pk']})
 
     def get_context_data(self, **kwargs):

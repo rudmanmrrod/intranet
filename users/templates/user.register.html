@@ -4,7 +4,7 @@
 {% block content %}
   <div class="center">
     <h1>Registro</h1><hr>
-    <form action="{% url 'register' %}" method="post">
+    <form action="{% url 'users:register' %}" method="post">
     {% csrf_token %}
       <div class="col m12 s12">
         <div class="input-field {% if form.username.errors %}invalid{% endif %}">
@@ -175,7 +175,7 @@
       <br />
 
       <div class="col m12 s12">
-         <a type="button" class="btn waves-effect teal" href="{% url 'user_list' %}">Regresar</a>
+         <a type="button" class="btn waves-effect teal" href="{% url 'administrador:user_list' %}">Regresar</a>
          <button type="submit" class="btn waves-effect teal">Registrar</button>
       </div>
     </form>

@@ -38,7 +38,7 @@ class Municipio(models.Model):
     nombre = models.CharField(max_length=50)
     
     ## Relación con la entidad
-    entidad = models.ForeignKey(Entidad)
+    entidad = models.ForeignKey(Entidad,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nombre
@@ -58,7 +58,7 @@ class Parroquia(models.Model):
     nombre = models.CharField(max_length=50)
     
     ## Relación con el municipio
-    municipio = models.ForeignKey(Municipio)
+    municipio = models.ForeignKey(Municipio,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nombre
@@ -86,7 +86,7 @@ class Empresa(models.Model):
     nombre_encargado = models.CharField(max_length=128)
 
     ## Relación con la parroquia
-    parroquia = models.ForeignKey(Parroquia)
+    parroquia = models.ForeignKey(Parroquia,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nombre

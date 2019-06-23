@@ -4,7 +4,7 @@
 {% block contenido %}
     <div class="center">
         <h1>Recuperar Contraseña</h1><hr>
-        <form action="{% url 'reset' %}" method="post">
+        <form action="" method="post">
             {% csrf_token %}
             <div class="col m12 s12">
                 <div class="input-field {% if form.email.errors %}invalid{% endif %}">

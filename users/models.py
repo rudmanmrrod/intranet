@@ -37,10 +37,10 @@ class Perfil(models.Model):
     cedula = models.CharField(max_length=10,unique=True)
     
     ## Relación con la parroquía
-    parroquia = models.ForeignKey(Parroquia)
+    parroquia = models.ForeignKey(Parroquia,on_delete=models.CASCADE)
 
     ## Cargo
-    cargo = models.ForeignKey(Cargos)
+    cargo = models.ForeignKey(Cargos,on_delete=models.CASCADE)
 
     ## Sueldo
     sueldo = models.DecimalField(max_digits=20,decimal_places=2)
@@ -49,7 +49,7 @@ class Perfil(models.Model):
     fecha_ingreso = models.DateField()
     
     ## Relación con el user de django
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.username

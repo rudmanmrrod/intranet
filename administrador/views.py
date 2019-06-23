@@ -8,7 +8,7 @@ Sistema de Intranet
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.views.generic import (
 	CreateView, UpdateView, ListView, DeleteView,FormView
 )
@@ -26,7 +26,7 @@ class EmpresaConfigView(LoginRequiredMixin,GroupRequiredMixin,FormView):
 	"""
 	template_name = "datos.empresa.html"
 	form_class = EmpresaForm
-	success_url = reverse_lazy('empresa_datos')
+	success_url = reverse_lazy('administrador:empresa_datos')
 	success_message = "Se registró con éxito"
 	group_required = u"Administrador"
 
@@ -95,7 +95,7 @@ class CargoCreate(LoginRequiredMixin,GroupRequiredMixin,SuccessMessageMixin,Crea
     fields = '__all__'
     template_name = "cargos.create.html"
     success_message = "Se registró el cargo con éxito"
-    success_url = reverse_lazy('cargo_list')
+    success_url = reverse_lazy('administrador:cargo_list')
     group_required = u"Administrador"
     
 
@@ -122,7 +122,7 @@ class CargoDelete(LoginRequiredMixin,GroupRequiredMixin,SuccessMessageMixin,Dele
     model = Cargos
     template_name = "cargos.delete.html"
     success_message = "Se eliminó el cargo con éxito"
-    success_url = reverse_lazy('cargo_list')
+    success_url = reverse_lazy('administrador:cargo_list')
     group_required = u"Administrador"
     
     
@@ -137,6 +137,6 @@ class CargoUpdate(LoginRequiredMixin,GroupRequiredMixin,SuccessMessageMixin,Upda
     fields = '__all__'
     template_name = "cargos.update.html"
     success_message = "Se actualizó el cargo con éxito"
-    success_url = reverse_lazy('cargo_list')
+    success_url = reverse_lazy('administrador:cargo_list')
     group_required = u"Administrador"
     

@@ -5,15 +5,16 @@ Sistema de Intranet
 #
 # Urls de la aplicación base
 # @version 1.0
-from django.conf.urls import url
+from django.urls import path
 from .views import *
 from base import views
 
+app_name = 'base'
 urlpatterns = [
-    url(r'^$', Inicio.as_view(), name = "inicio"),
+    path('', Inicio.as_view(), name = "inicio"),
 ]
 
 ## Ajax
 urlpatterns +=[
-    url(r'^ajax/actualizar-combo/?$', actualizar_combo, name='actualizar_combo'),
+    path('ajax/actualizar-combo/', actualizar_combo, name='actualizar_combo'),
 ]

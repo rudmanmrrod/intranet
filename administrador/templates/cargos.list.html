@@ -3,7 +3,7 @@
 {% block title %}Cargos{% endblock %}
 {% block content %}
     <h1 class="center">Cargos</h1><hr>
-    <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'cargo_create' %}">
+    <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'administrador:cargo_create' %}">
         <i class="material-icons left">add</i> Crear Nuevo Cargo
     </a>
     
@@ -14,10 +14,10 @@
                 <span><b>Descripción: </b>{{ cargo.descripcion }}</span>
             </div>
             <div class="card-action">
-                <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'cargo_update' cargo.id %}">
+                <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'administrador:cargo_update' cargo.id %}">
                     <i class="material-icons left">edit</i> Editar
                 </a>
-                <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'cargo_delete' cargo.id %}">
+                <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'administrador:cargo_delete' cargo.id %}">
                     <i class="material-icons left">delete</i> Eliminar
                 </a>
             </div>
@@ -27,6 +27,6 @@
     {% endfor %}
     {% include 'base.paginator.html' with paginator=page_obj %}
     <div style="padding-bottom: 50px;">
-        <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'inicio' %}">Regresar</a>
+        <a type="button" class="btn waves-effect teal lighten-1" href="{% url 'base:inicio' %}">Regresar</a>
     </div>
 {% endblock %}
