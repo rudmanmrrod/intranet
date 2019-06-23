@@ -113,7 +113,7 @@ class RegisterView(LoginRequiredMixin, GroupRequiredMixin, SuccessMessageMixin,F
         self.object.email = form.cleaned_data['email']
         self.object.save()
 
-        self.object..groups.add(2)
+        self.object.groups.add(2)
               
         parroquia = Parroquia.objects.get(id=form.cleaned_data['parroquia'])
         
